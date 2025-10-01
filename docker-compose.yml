@@ -1,6 +1,6 @@
+
 version: '3'
 
-# Services
 services:
 
   # Nginx Service
@@ -8,7 +8,7 @@ services:
     build:
       context: ./.docker/nginx
       dockerfile: Dockerfile
-    image: frehman/nginximages:999
+    image: 344230058093.dkr.ecr.us-east-1.amazonaws.com/lemp-server:latest
     ports:
       - 80:80
     volumes:
@@ -22,7 +22,7 @@ services:
     build:
       context: ./.docker/php
       dockerfile: Dockerfile
-    image: frehman/phpimages:999
+    image: 344230058093.dkr.ecr.us-east-1.amazonaws.com/lemp-php:latest
     working_dir: /var/www/php
     volumes:
       - ./src:/var/www/php
@@ -34,7 +34,7 @@ services:
     build:
       context: ./.docker/mysql
       dockerfile: Dockerfile
-    image: frehman/mysqlimages:999
+    image: 344230058093.dkr.ecr.us-east-1.amazonaws.com/lemp-mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_ROOT_HOST: "%"
@@ -47,21 +47,21 @@ services:
       interval: 5s
       retries: 10
 
-  # PHP MyAdmin
-  
+  # PHP MyAdmin Service
   phpmyadmin:
-   build:
-     context: ./.docker/phpmyadmin
-     dockerfile: Dockerfile
-   image: frehman/myadminimages:999
-   environment:
-     MYSQL_USERNAME: root
-     MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-     PMA_HOST: mysql
-   ports:
-     - "8080:80"
-   restart: always
-   depends_on:
-     - mysql
+    build:
+      context: ./.docker/phpmyadmin
+      dockerfile: Dockerfile
+    image: 344230058093.dkr.ecr.us-east-1.amazonaws.com/lemp-web:latest
+    environment:
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      PMA_HOST: mysql
+    ports:
+      - "8080:80"
+    restart: always
+    depends_on:
+      - mysql
+
 volumes:
   faisal-db-data:
